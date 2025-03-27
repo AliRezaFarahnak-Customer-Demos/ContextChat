@@ -1,9 +1,7 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.SemanticKernel.ChatCompletion;
 using ModelContextProtocol.Client;
 
 internal class Program
@@ -36,10 +34,10 @@ internal class Program
         var builder = Kernel.CreateBuilder();
         builder.Services
             .AddLogging()
-            .AddOpenAIChatCompletion(
-                serviceId: "openai",
-                modelId: "gpt-4o-mini",
-                apiKey: Environment.GetEnvironmentVariable("OPENAI_API_KEY"));
+            .AddAzureOpenAIChatCompletion(
+                deploymentName: Environment.GetEnvironmentVariable("MODEL"),
+                endpoint: Environment.GetEnvironmentVariable("ENDPOINT"),
+                apiKey: Environment.GetEnvironmentVariable("API_KEY"));
         Kernel kernel = builder.Build();
         kernel.Plugins.AddFromFunctions("GitHub", tools.Select(aiFunction => aiFunction.AsKernelFunction()));
 
@@ -51,8 +49,27 @@ internal class Program
         };
 
         // Test using GitHub tools
-        var prompt = "Summarize the last four commits to the microsoft/semantic-kernel repository?";
-        var result = await kernel.InvokePromptAsync(prompt, new(executionSettings)).ConfigureAwait(false);
-        Console.WriteLine($"\n\n{prompt}\n{result}");
+        var prompt = "Summarize the last four commits to the microsoft/semantic-kernel repository in a very funny way and with emojis";
+        Console.WriteLine($"\n\n{prompt}\n");
+
+        // Create a chat history
+        var chatHistory = new ChatHistory();
+        chatHistory.AddUserMessage(prompt);
+
+        // Get the chat completion service
+        var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
+
+        // Stream the response
+        string completeResponse = "";
+        await foreach (var content in chatCompletionService.GetStreamingChatMessageContentsAsync(
+            chatHistory, executionSettings, kernel))
+        {
+            Console.Write(content.Content);
+            completeResponse += content.Content;
+        }
+
+        // Add the response to the chat history
+        chatHistory.AddAssistantMessage(completeResponse);
+        Console.WriteLine();
     }
 }
