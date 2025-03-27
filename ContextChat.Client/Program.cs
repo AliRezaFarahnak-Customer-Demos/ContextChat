@@ -3,6 +3,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
 using ModelContextProtocol.Client;
+using ModelContextProtocol.Protocol.Transport;
 
 internal class Program
 {
@@ -14,7 +15,7 @@ internal class Program
             {
                 Id = "github",
                 Name = "GitHub",
-                TransportType = "stdio",
+                TransportType = TransportTypes.StdIo,
                 TransportOptions = new Dictionary<string, string>
                 {
                     ["command"] = "npx",
