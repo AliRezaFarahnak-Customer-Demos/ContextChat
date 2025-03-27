@@ -2,7 +2,6 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using ModelContextProtocol.Client;
@@ -11,10 +10,6 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        var config = new ConfigurationBuilder()
-    .AddEnvironmentVariables()
-    .Build();
-
         // Create an MCPClient for the GitHub server
         await using var mcpClient = await McpClientFactory.CreateAsync(
             new()
