@@ -9,6 +9,38 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
+        // Create an MCPClient for the MyServices server
+        await using var myServicesClient = await McpClientFactory.CreateAsync(
+            new()
+            {
+                Id = "myservices",
+                Name = "MyServices",
+                TransportType = TransportTypes.StdIo,
+                TransportOptions = new Dictionary<string, string>
+                {
+                    ["command"] = "dotnet",
+                    ["arguments"] = "run --project c:\\repos\\ContextChat\\MyServices.Server\\MyServices.Server.csproj",
+                }
+            },
+            new() { ClientInfo = new() { Name = "MyServices", Version = "1.0.0" } }).ConfigureAwait(false);
+
+        // Retrieve the list of tools available on the MyServices server
+        var myServicesTools = await myServicesClient.GetAIFunctionsAsync().ConfigureAwait(false);
+
+        // Display available MyServices tools with color
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("Available MyServices Tools:");
+        Console.ResetColor();
+
+        foreach (var tool in myServicesTools)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write($"  {tool.Name}: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(tool.Description);
+        }
+        Console.ResetColor();
+
         // Create an MCPClient for the GitHub server
         await using var githubClient = await McpClientFactory.CreateAsync(
             new()
@@ -50,6 +82,9 @@ internal class Program
                 endpoint: Environment.GetEnvironmentVariable("ENDPOINT"),
                 apiKey: Environment.GetEnvironmentVariable("API_KEY"));
         Kernel kernel = builder.Build();
+        
+        // Add both tools to the kernel
+        kernel.Plugins.AddFromFunctions("MyServices", myServicesTools.Select(aiFunction => aiFunction.AsKernelFunction()));
         kernel.Plugins.AddFromFunctions("GitHub", githubTools.Select(aiFunction => aiFunction.AsKernelFunction()));
 
         // Enable automatic function calling
