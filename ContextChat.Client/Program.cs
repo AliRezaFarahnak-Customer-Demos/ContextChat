@@ -60,7 +60,7 @@ internal class Program
         };
 
         // Create a chat history
-        var chatHistory = new ChatHistory();
+        var session = new ChatHistory();
 
         // Get the chat completion service
         var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
@@ -94,7 +94,7 @@ internal class Program
             // Check for clear command
             if (string.Equals(userInput, "clear", StringComparison.OrdinalIgnoreCase))
             {
-                chatHistory.Clear();
+                session.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Conversation cleared.");
                 Console.ResetColor();
@@ -103,7 +103,7 @@ internal class Program
             }
 
             // Add user message to history
-            chatHistory.AddUserMessage(userInput);
+            session.AddUserMessage(userInput);
 
             // Display assistant response
             Console.ForegroundColor = ConsoleColor.Green;
@@ -113,7 +113,7 @@ internal class Program
             // Stream the response
             string completeResponse = "";
             await foreach (var content in chatCompletionService.GetStreamingChatMessageContentsAsync(
-                chatHistory, executionSettings, kernel))
+                session, executionSettings, kernel))
             {
                 Console.Write(content.Content);
                 completeResponse += content.Content;
@@ -121,7 +121,7 @@ internal class Program
             Console.ResetColor();
 
             // Add the response to the chat history
-            chatHistory.AddAssistantMessage(completeResponse);
+            session.AddAssistantMessage(completeResponse);
             Console.WriteLine("\n");
         }
     }
