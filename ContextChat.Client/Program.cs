@@ -41,32 +41,6 @@ internal class Program
         }
         Console.ResetColor();
 
-        // Connect to an MCP 'everything' server
-        Console.WriteLine("Connecting client to MCP 'everything' server");
-        var everythingClient = await McpClientFactory.CreateAsync(
-            new()
-            {
-                Id = "everything",
-                Name = "Everything",
-                TransportType = TransportTypes.StdIo,
-                TransportOptions = new Dictionary<string, string>
-                {
-                    ["command"] = "npx",
-                    ["arguments"] = "-y @modelcontextprotocol/server-everything",
-                }
-            },
-            new() { ClientInfo = new() { Name = "Everything", Version = "1.0.0" } }).ConfigureAwait(false);
-
-        // Get all available tools from the everything server
-        Console.WriteLine("Tools available:");
-        var everythingTools = await everythingClient.GetAIFunctionsAsync().ConfigureAwait(false);
-
-        foreach (var tool in everythingTools)
-        {
-            Console.WriteLine($"  {tool}");
-        }
-        Console.WriteLine();
-
         // Prepare and build kernel with the MCP tools as Kernel functions
         var builder = Kernel.CreateBuilder();
         builder.Services
@@ -77,7 +51,6 @@ internal class Program
                 apiKey: Environment.GetEnvironmentVariable("API_KEY"));
         Kernel kernel = builder.Build();
         kernel.Plugins.AddFromFunctions("GitHub", githubTools.Select(aiFunction => aiFunction.AsKernelFunction()));
-        kernel.Plugins.AddFromFunctions("Everything", everythingTools.Select(aiFunction => aiFunction.AsKernelFunction()));
 
         // Enable automatic function calling
         OpenAIPromptExecutionSettings executionSettings = new()
