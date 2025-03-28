@@ -6,7 +6,7 @@ using System.Text.Json;
 namespace QuickstartWeatherServer.Tools;
 
 [McpServerToolType]
-public static class WeatherTools
+public static class WeatherTool
 {
     [McpServerTool, Description("Get weather forecast for a location.")]
     public static async Task<string> GetForecast(
