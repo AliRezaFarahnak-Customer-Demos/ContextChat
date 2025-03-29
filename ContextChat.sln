@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextChat.Client", "ContextChat.Client\ContextChat.Client.csproj", "{5EBCE64B-D01A-783D-7EE8-E73DEDED4A98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServices.Server", "MyServices.Server\MyServices.Server.csproj", "{F4D83747-0E3F-0371-1679-EB430DD608A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTools.Server", "MyTools.Server\MyTools.Server.csproj", "{F4D83747-0E3F-0371-1679-EB430DD608A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

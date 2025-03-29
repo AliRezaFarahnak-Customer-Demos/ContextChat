@@ -4,7 +4,7 @@ A .NET solution demonstrating Model Context Protocol (MCP) for AI-powered chat a
 
 ## Project Structure
 - **ContextChat.Client**: Console app connecting to MCP servers using Azure OpenAI
-- **MyServices.Server**: MCP server providing weather forecast functionality
+- **MyTools.Server**: MCP server providing weather forecast functionality
 
 ## Prerequisites
 - .NET SDK 9.0
