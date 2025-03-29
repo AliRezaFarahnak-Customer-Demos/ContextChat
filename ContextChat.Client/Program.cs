@@ -46,7 +46,7 @@ internal class Program
         Console.ResetColor();
 
         // Create an MCPClient for the GitHub server
-        await using var githubClient = await McpClientFactory.CreateAsync(
+       /* await using var githubClient = await McpClientFactory.CreateAsync(
             new()
             {
                 Id = "github",
@@ -75,7 +75,7 @@ internal class Program
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(tool.Description);
         }
-        Console.ResetColor();
+        Console.ResetColor();*/
 
         // Prepare and build kernel with the MCP tools as Kernel functions
         var builder = Kernel.CreateBuilder();
