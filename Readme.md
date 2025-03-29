@@ -38,3 +38,21 @@ dotnet user-secrets set "API_KEY" "your-azure-openai-api-key"
 
 ## How It Works
 The client connects to MCP servers and integrates them with Azure OpenAI via Semantic Kernel. The AI model determines which tool to use based on your query.
+
+# Playwright MCP Integration
+
+## Installation in VS Code
+
+To install the Playwright MCP server in VS Code, use the following command:
+
+```bash
+code --add-mcp '{"name":"playwright","command":"npx","args":["@playwright/mcp@latest"]}'
+```
+
+After installation, restart VS Code. The Playwright MCP tool will be available for use with GitHub Copilot Chat.
+
+## Usage
+
+1. Open GitHub Copilot Chat in VS Code.
+2. Use commands like `/fix` or `/copilot` to interact with the Playwright MCP tool.
+3. Refer to the `playwright-mcp-config.json` file for configuration details.

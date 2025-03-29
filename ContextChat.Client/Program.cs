@@ -89,7 +89,7 @@ internal class Program
 
         // Add both tools to the kernel
         kernel.Plugins.AddFromFunctions("MyTools", MyToolsTools.Select(aiFunction => aiFunction.AsKernelFunction()));
-        kernel.Plugins.AddFromFunctions("GitHub", githubTools.Select(aiFunction => aiFunction.AsKernelFunction()));
+       // kernel.Plugins.AddFromFunctions("GitHub", githubTools.Select(aiFunction => aiFunction.AsKernelFunction()));
 
         // Enable automatic function calling
         OpenAIPromptExecutionSettings executionSettings = new()
