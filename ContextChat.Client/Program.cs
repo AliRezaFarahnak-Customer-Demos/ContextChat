@@ -4,11 +4,15 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
 using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol.Transport;
+using System.IO;
 
 internal class Program
 {
     private static async Task Main(string[] args)
     {
+        // Dynamically find the server project file
+        string serverProjectPath = FindServerProjectFile("MyServices.Server");
+
         // Create an MCPClient for the MyServices server
         await using var myServicesClient = await McpClientFactory.CreateAsync(
             new()
@@ -19,7 +23,7 @@ internal class Program
                 TransportOptions = new Dictionary<string, string>
                 {
                     ["command"] = "dotnet",
-                    ["arguments"] = "run --project c:\\repos\\ContextChat\\MyServices.Server\\MyServices.Server.csproj",
+                    ["arguments"] = $"run --project {serverProjectPath}",
                 }
             },
             new() { ClientInfo = new() { Name = "MyServices", Version = "1.0.0" } }).ConfigureAwait(false);
@@ -82,7 +86,7 @@ internal class Program
                 endpoint: Environment.GetEnvironmentVariable("ENDPOINT"),
                 apiKey: Environment.GetEnvironmentVariable("API_KEY"));
         Kernel kernel = builder.Build();
-        
+
         // Add both tools to the kernel
         kernel.Plugins.AddFromFunctions("MyServices", myServicesTools.Select(aiFunction => aiFunction.AsKernelFunction()));
         kernel.Plugins.AddFromFunctions("GitHub", githubTools.Select(aiFunction => aiFunction.AsKernelFunction()));
@@ -159,5 +163,30 @@ internal class Program
             chatHistory.AddAssistantMessage(completeResponse);
             Console.WriteLine("\n");
         }
+    }
+
+    // Helper method to find the server project file
+    private static string FindServerProjectFile(string serverName)
+    {
+        // Get the current application directory
+        string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+        // Navigate to the solution root directory (assuming standard project structure)
+        // Go up to bin directory
+        string solutionDirectory = Path.GetFullPath(Path.Combine(currentDirectory, "..\\..\\..\\.."));
+
+        Console.WriteLine($"Looking for server project in: {solutionDirectory}");
+
+        // Look for the server project in the solution directory
+        var serverProjectFile = Directory.GetFiles(solutionDirectory, "*.csproj", SearchOption.AllDirectories)
+            .FirstOrDefault(file => file.Contains(serverName, StringComparison.OrdinalIgnoreCase));
+
+        if (string.IsNullOrEmpty(serverProjectFile))
+        {
+            throw new FileNotFoundException($"Could not find server project file for {serverName}");
+        }
+
+        Console.WriteLine($"Found server project at: {serverProjectFile}");
+        return serverProjectFile;
     }
 }

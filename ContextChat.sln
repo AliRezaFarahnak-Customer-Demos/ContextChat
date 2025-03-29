@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextChat.Client", "ContextChat.Client\ContextChat.Client.csproj", "{5EBCE64B-D01A-783D-7EE8-E73DEDED4A98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickstartWeatherServer", "QuickstartWeatherServer\QuickstartWeatherServer.csproj", "{94A2158C-B515-0D74-C735-6779699ACF32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServices.Server", "MyServices.Server\MyServices.Server.csproj", "{F4D83747-0E3F-0371-1679-EB430DD608A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{5EBCE64B-D01A-783D-7EE8-E73DEDED4A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EBCE64B-D01A-783D-7EE8-E73DEDED4A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EBCE64B-D01A-783D-7EE8-E73DEDED4A98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94A2158C-B515-0D74-C735-6779699ACF32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94A2158C-B515-0D74-C735-6779699ACF32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94A2158C-B515-0D74-C735-6779699ACF32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94A2158C-B515-0D74-C735-6779699ACF32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4D83747-0E3F-0371-1679-EB430DD608A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4D83747-0E3F-0371-1679-EB430DD608A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4D83747-0E3F-0371-1679-EB430DD608A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4D83747-0E3F-0371-1679-EB430DD608A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
