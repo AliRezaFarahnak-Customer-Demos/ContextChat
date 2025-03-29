@@ -11,14 +11,14 @@ internal class Program
     private static async Task Main(string[] args)
     {
         // Dynamically find the server project file
-        string serverProjectPath = FindServerProjectFile("MyServices.Server");
+        string serverProjectPath = FindServerProjectFile("MyTools.Server");
 
-        // Create an MCPClient for the MyServices server
-        await using var myServicesClient = await McpClientFactory.CreateAsync(
+        // Create an MCPClient for the MyTools server
+        await using var MyToolsClient = await McpClientFactory.CreateAsync(
             new()
             {
-                Id = "myservices",
-                Name = "MyServices",
+                Id = "MyTools",
+                Name = "MyTools",
                 TransportType = TransportTypes.StdIo,
                 TransportOptions = new Dictionary<string, string>
                 {
@@ -26,17 +26,17 @@ internal class Program
                     ["arguments"] = $"run --project {serverProjectPath}",
                 }
             },
-            new() { ClientInfo = new() { Name = "MyServices", Version = "1.0.0" } }).ConfigureAwait(false);
+            new() { ClientInfo = new() { Name = "MyTools", Version = "1.0.0" } }).ConfigureAwait(false);
 
-        // Retrieve the list of tools available on the MyServices server
-        var myServicesTools = await myServicesClient.GetAIFunctionsAsync().ConfigureAwait(false);
+        // Retrieve the list of tools available on the MyTools server
+        var MyToolsTools = await MyToolsClient.GetAIFunctionsAsync().ConfigureAwait(false);
 
-        // Display available MyServices tools with color
+        // Display available MyTools tools with color
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("Available MyServices Tools:");
+        Console.WriteLine("Available MyTools Tools:");
         Console.ResetColor();
 
-        foreach (var tool in myServicesTools)
+        foreach (var tool in MyToolsTools)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write($"  {tool.Name}: ");
@@ -88,7 +88,7 @@ internal class Program
         Kernel kernel = builder.Build();
 
         // Add both tools to the kernel
-        kernel.Plugins.AddFromFunctions("MyServices", myServicesTools.Select(aiFunction => aiFunction.AsKernelFunction()));
+        kernel.Plugins.AddFromFunctions("MyTools", MyToolsTools.Select(aiFunction => aiFunction.AsKernelFunction()));
         kernel.Plugins.AddFromFunctions("GitHub", githubTools.Select(aiFunction => aiFunction.AsKernelFunction()));
 
         // Enable automatic function calling
@@ -175,8 +175,6 @@ internal class Program
         // Go up to bin directory
         string solutionDirectory = Path.GetFullPath(Path.Combine(currentDirectory, "..\\..\\..\\.."));
 
-        Console.WriteLine($"Looking for server project in: {solutionDirectory}");
-
         // Look for the server project in the solution directory
         var serverProjectFile = Directory.GetFiles(solutionDirectory, "*.csproj", SearchOption.AllDirectories)
             .FirstOrDefault(file => file.Contains(serverName, StringComparison.OrdinalIgnoreCase));
@@ -186,7 +184,7 @@ internal class Program
             throw new FileNotFoundException($"Could not find server project file for {serverName}");
         }
 
-        Console.WriteLine($"Found server project at: {serverProjectFile}");
+        Console.WriteLine($"Starting dotnet MCP server: {serverProjectFile}");
         return serverProjectFile;
     }
 }
