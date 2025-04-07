@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Client",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/ContextChat.Client/bin/Debug/net9.0/ContextChat.Client.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/ContextChat.Client",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
+      "name": "Debug Server",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/MyTools.Server/bin/Debug/net9.0/MyTools.Server.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/MyTools.Server",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    }
+  ]
+}
