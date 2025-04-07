@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MyTools.Server;
+namespace MyTools.Server.Tools;
 
 [McpServerToolType]
 public static class CurrencyTool

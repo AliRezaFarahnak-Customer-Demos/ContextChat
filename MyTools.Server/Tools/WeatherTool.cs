@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace MyTools.Server;
+namespace MyTools.Server.Tools;
 
 [McpServerToolType]
 public static class WeatherTool
