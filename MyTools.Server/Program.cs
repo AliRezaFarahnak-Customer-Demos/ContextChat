@@ -1,11 +1,20 @@
-using ModelContextProtocol;
-using ModelContextProtocol.Server;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.ComponentModel;
+using Microsoft.Extensions.Logging;
 
-var builder = Host.CreateEmptyApplicationBuilder(settings: null);
-builder.Services
-    .AddMcpServer()
-    .WithStdioServerTransport()
-    .WithToolsFromAssembly();
-await builder.Build().RunAsync();
+internal class Program
+{
+    private static async Task Main(string[] args)
+    {
+        var builder = Host.CreateApplicationBuilder(args);
+        builder.Logging.AddConsole(consoleLogOptions =>
+        {
+            consoleLogOptions.LogToStandardErrorThreshold = LogLevel.Trace;
+        });
+        builder.Services
+            .AddMcpServer()
+            .WithStdioServerTransport()
+            .WithToolsFromAssembly();
+        await builder.Build().RunAsync();
+    }
+}
