@@ -51,7 +51,6 @@ class Program
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("Assistant: ");
 
-
             var resp = "";
             await foreach (var content in chat.GetStreamingChatMessageContentsAsync(history, execution, kernel))
             {
