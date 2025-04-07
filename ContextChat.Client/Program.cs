@@ -30,7 +30,7 @@ class Program
         };
         await kernel.Plugins.AddMcpFunctionsFromStdioServerAsync("MyTools", transportOptions);
 
-        var settings = new OpenAIPromptExecutionSettings
+        var execution = new OpenAIPromptExecutionSettings
         {
             Temperature = 0,
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
@@ -53,7 +53,7 @@ class Program
 
 
             var resp = "";
-            await foreach (var content in chat.GetStreamingChatMessageContentsAsync(history, settings, kernel))
+            await foreach (var content in chat.GetStreamingChatMessageContentsAsync(history, execution, kernel))
             {
                 Console.Write(content.Content);
                 resp += content.Content;
