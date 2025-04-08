@@ -54,6 +54,8 @@ graph LR
     style E fill:#0078D4,stroke:#0078D4,color:white
     style F fill:#0078D4,stroke:#0078D4,color:white
 ```
+npx @modelcontextprotocol/inspector dotnet run
+
 ## Prerequisites
 
 - [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) for deployment

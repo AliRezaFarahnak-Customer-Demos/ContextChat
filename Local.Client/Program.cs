@@ -11,12 +11,12 @@ class Program
         var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
 
         var builder = Kernel.CreateBuilder();
-        builder.Services
-            .AddLogging()
-            .AddAzureOpenAIChatCompletion(
-                config["MODEL"],
-                config["ENDPOINT"],
-                config["API_KEY"]);
+            builder.Services
+                .AddLogging()
+                .AddAzureOpenAIChatCompletion(
+                    config["MODEL"],
+                    config["ENDPOINT"],
+                    config["API_KEY"]);
 
         var kernel = builder.Build();
 
