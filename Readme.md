@@ -21,3 +21,16 @@ For GitHub Copilot within VS Code, you should instead set the key as the `x-func
         }
     }
 }
+
+
+```mermaid
+graph LR
+    subgraph Your_Computer
+        A[MCP Server A] <-- MCP Protocol --> Client[Host with MCP Client (Claude, IDEs, Tools)]
+        B[MCP Server B] <-- MCP Protocol --> Client
+        C[MCP Server C] <-- MCP Protocol --> Client
+        A <---> D[Local Data Source A]
+        B <---> E[Local Data Source B]
+        C <-- Web APIs --> F[Remote Service C]
+    end
+    F[Remote Service C] -->|Internet| C
