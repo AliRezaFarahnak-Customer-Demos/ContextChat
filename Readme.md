@@ -8,14 +8,52 @@ This project demonstrates how to implement a Message Channel Protocol (MCP) serv
 
 The diagram below shows a traditional architecture before implementing MCP, where clients communicate directly with backend services using various protocols:
 
-![Before MCP Implementation](Diagram/before-mcp-diagram.md)
+### Traditional Architecture
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'background': '#FFFFFF' }}}%%
+graph LR
+    subgraph  
+        Client["Client Application"]
+        
+        BE["<span style='display:inline-block; margin-right:10px'><img src='FunctionApp.svg' width='30' height='30' /></span><span style='display:inline-block; margin-right:10px'><img src='APIManager.svg' width='30' height='30' /></span><span style='display:inline-block'><img src='VirtualMachine.svg' width='30' height='30' /></span><br>Backend + Orchestrator<br>Gen AI"]
+        
+        Client <-->|HTTP/REST/SOCKET| BE
+    end
 
-### With MCP Implementation
+    %% Azure-themed styling
+    style Client fill:#000000,stroke:#000000,color:white
+    style BE fill:#000000,stroke:#000000,color:white
+```
 
-The diagram below shows the architecture with MCP implementation, allowing clients to communicate with multiple server types through a standardized protocol:
+### Model Context Protocol
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'background': '#FFFFFF' }}}%%
+graph LR
+    subgraph  
+        Client["MCP Client + Orchestrator GenAI"]
+        A["<img src='VirtualMachine.svg' width='36' height='36' /><br>Local Server MCP<br>Tools"]
+        B["<span style='display:inline-block; margin-right:10px'><img src='FunctionApp.svg' width='30' height='30' /></span><span style='display:inline-block'><img src='APIManager.svg' width='30' height='30' /></span><br>Remote Server MCP<br>Tools"]
+        C["<img src='VirtualMachine.svg' width='36' height='36' /><br>Local Server MCP<br>Tools"]
+        
+        Client <-->|MCP Protocol| A
+        Client <-->|MCP Protocol| B
+        Client <-->|MCP Protocol| C
+        
+        A <--> D[Files]
+        B <--> E[Cloud Native Resources]
+        C <-->|Web APIs| F[Rest API]
+    end
+    F -->|Internet| C
 
-![MCP Implementation](Diagram/mcp-diagram.md)
-
+    %% Azure-themed styling
+    style Client fill:#000000,stroke:#000000,color:white
+    style A fill:#000000,stroke:#000000,color:white
+    style B fill:#000000,stroke:#000000,color:white
+    style C fill:#000000,stroke:#000000,color:white
+    style D fill:#0078D4,stroke:#0078D4,color:white
+    style E fill:#0078D4,stroke:#0078D4,color:white
+    style F fill:#0078D4,stroke:#0078D4,color:white
+```
 ## Prerequisites
 
 - [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) for deployment
