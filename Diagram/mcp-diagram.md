@@ -1,8 +1,8 @@
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'background': '#FFFFFF' }}}%%
 graph LR
-    subgraph Model Context Protocol
-        Client["MCP Client + Orchestrator"]
+    subgraph  
+        Client["MCP Client + Orchestrator GenAI"]
         A["<img src='VirtualMachine.svg' width='36' height='36' /><br>Local Server MCP<br>Tools"]
         B["<span style='display:inline-block; margin-right:10px'><img src='FunctionApp.svg' width='30' height='30' /></span><span style='display:inline-block'><img src='APIManager.svg' width='30' height='30' /></span><br>Remote Server MCP<br>Tools"]
         C["<img src='VirtualMachine.svg' width='36' height='36' /><br>Local Server MCP<br>Tools"]
@@ -18,7 +18,7 @@ graph LR
     F -->|Internet| C
 
     %% Azure-themed styling
-    style Client fill:#00ff00,stroke:#00ff00,color:black
+    style Client fill:#000000,stroke:#000000,color:white
     style A fill:#000000,stroke:#000000,color:white
     style B fill:#000000,stroke:#000000,color:white
     style C fill:#000000,stroke:#000000,color:white
