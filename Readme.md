@@ -1,36 +1,49 @@
-Demo of MCP STIDO and MCP SSE
+# Context Chat - MCP Server Implementation
 
+This project demonstrates how to implement a Message Channel Protocol (MCP) server using Azure Functions. MCP enables standardized communication between client applications and AI services, making it easier to build robust and scalable AI-powered applications.
+
+## Architecture
+
+### Before MCP Implementation
+
+The diagram below shows a traditional architecture before implementing MCP, where clients communicate directly with backend services using various protocols:
+
+![Before MCP Implementation](Diagram/before-mcp-diagram.md)
+
+### With MCP Implementation
+
+The diagram below shows the architecture with MCP implementation, allowing clients to communicate with multiple server types through a standardized protocol:
+
+![MCP Implementation](Diagram/mcp-diagram.md)
+
+## Prerequisites
+
+- [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) for deployment
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Azure Functions Core Tools](https://learn.microsoft.com/azure/azure-functions/functions-run-local#install-the-azure-functions-core-tools)
+- Azure subscription
+
+## Getting Started
+
+### Local Development
+
+1. Clone this repository
+2. Configure user secrets for local development:
+
+```bash
 dotnet user-secrets set "MODEL" "gpt-4o-mini"
-dotnet user-secrets set "ENDPOINT" "https://aialfarahn5634093468.openai.azure.com"
-dotnet user-secrets set "API_KEY" "qVIbymH3HWufDrIXL6tkf5p9d3ha4ej7kGDkigQsSnMnFkicgmcMJQQJ99BCACfhMk5XJ3w3AAAAACOGvnUO"
-```
+dotnet user-secrets set "ENDPOINT" "<your-openai-endpoint>"
+dotnet user-secrets set "API_KEY" "<your-api-key>"
 
-
-
-For GitHub Copilot within VS Code, you should instead set the key as the `x-functions-key` header in `mcp.json`, and you would just use `https://<funcappname>.azurewebsites.net/runtime/webhooks/mcp/sse` for the URL. The following example uses an input and will prompt you to provide the key when you start the server from VS Code:
-
-```json
 {
     "servers": {
         "my-mcp-server": {
             "type": "sse",
-            "url": "<funcappname>.azurewebsites.net/runtime/webhooks/mcp/sse",
+            "url": "<function-app-name>.azurewebsites.net/runtime/webhooks/mcp/sse",
             "headers": {
                 "x-functions-key": "${input:functions-mcp-extension-system-key}"
             }
         }
     }
 }
-
-
-```mermaid
-graph LR
-    subgraph Your_Computer
-        A[MCP Server A] <-- MCP Protocol --> Client[Host with MCP Client (Claude, IDEs, Tools)]
-        B[MCP Server B] <-- MCP Protocol --> Client
-        C[MCP Server C] <-- MCP Protocol --> Client
-        A <---> D[Local Data Source A]
-        B <---> E[Local Data Source B]
-        C <-- Web APIs --> F[Remote Service C]
-    end
-    F[Remote Service C] -->|Internet| C
+```
