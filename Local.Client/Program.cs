@@ -8,15 +8,15 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var config = new ConfigurationBuilder().AddUserSecrets<Program>().AddEnvironmentVariables().Build();
+        var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
 
         var builder = Kernel.CreateBuilder();
-            builder.Services
-                .AddLogging()
-                .AddAzureOpenAIChatCompletion(
-                    config["MODEL"], 
-                    config["ENDPOINT"], 
-                    config["API_KEY"]);
+        builder.Services
+            .AddLogging()
+            .AddAzureOpenAIChatCompletion(
+                config["MODEL"],
+                config["ENDPOINT"],
+                config["API_KEY"]);
 
         var kernel = builder.Build();
 
@@ -25,7 +25,7 @@ class Program
         var transportOptions = new Dictionary<string, string>
         {
             ["command"] = "dotnet",
-            ["arguments"] = $"run --project \"{serverPath}\" --no-build"
+            ["arguments"] = $"run --project {serverPath} --no-build"
         };
         await kernel.Plugins.AddMcpFunctionsFromStdioServerAsync("Local.Server", transportOptions);
 

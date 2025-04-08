@@ -22,12 +22,15 @@ public class Tools(ILogger<Tools> logger)
     }
 
     [Function(nameof(GetCurrentTime))]
-    public string GetCurrentTime(
-        [McpToolTrigger(nameof(GetCurrentTime), "Returns the current time")] ToolInvocationContext context)
+    public async Task<string> GetCurrentTime(
+        [McpToolTrigger(nameof(GetCurrentTime), "Returns the current time")] ToolInvocationContext context,
+        [McpToolProperty(nameof(longitude), "string", @$"{nameof(longitude)} of location")] string longitude,
+        [McpToolProperty(nameof(latitude), "string", @$"{nameof(latitude)} of location")] string latitude)
     {
-        logger.BeginScope("GetCurrentTime");
-        var dateTime = $@"This is time UTC: {DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")}";
-        return dateTime;
+        HttpClient client = new();
+        string url = $"https://timeapi.io/api/Time/current/coordinate?latitude={latitude}&longitude={longitude}";
+        string timeJson = await client.GetStringAsync(url);
+        return timeJson;
     }
 
 

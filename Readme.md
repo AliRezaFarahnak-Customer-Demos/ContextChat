@@ -15,10 +15,10 @@ urlFragment: remote-mcp-functions-dotnet
 -->
 2. **Configure Environment Variables**
 ```bash
-cd ContextChat.Client
-dotnet user-secrets set "MODEL" "your-azure-openai-deployment-name"
-dotnet user-secrets set "ENDPOINT" "your-azure-openai-endpoint"
-dotnet user-secrets set "API_KEY" "your-azure-openai-api-key"
+
+dotnet user-secrets set "MODEL" "gpt-4o-mini"
+dotnet user-secrets set "ENDPOINT" "https://aialfarahn5634093468.openai.azure.com"
+dotnet user-secrets set "API_KEY" "qVIbymH3HWufDrIXL6tkf5p9d3ha4ej7kGDkigQsSnMnFkicgmcMJQQJ99BCACfhMk5XJ3w3AAAAACOGvnUO"
 ```
 
 

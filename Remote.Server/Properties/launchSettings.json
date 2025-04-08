@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "MetadataTestsOOP": {
+    "Remote.Server": {
       "commandName": "Project",
       "commandLineArgs": "--port 7005",
       "launchBrowser": false
